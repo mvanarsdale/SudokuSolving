@@ -1,3 +1,1 @@
-# toggle-practice
-# toggle-practice
-# Bomb
+# Sudoku

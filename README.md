@@ -1,4 +1,4 @@
-# SudokuSolving
+# SudokuSolving Planning
 
 ✦ Day 1: Graph Modeling & Input Parsing 💻
 Goal: Build the graph model of Sudoku using the graph lib

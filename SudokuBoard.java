@@ -21,7 +21,6 @@ public class SudokuBoard {
     	
     }
     
-    
     // Moves the pointer to a new position
     public void moveTo(int row, int col) {
         currRow = row;
@@ -33,7 +32,7 @@ public class SudokuBoard {
         return board[currRow][currCol];  
     }
 
-    // Sets value at the current cell (ง •̀_•́)ง
+    // Sets value at the current cell 
     public void setCell(int value) {
         board[currRow][currCol] = value;
     }

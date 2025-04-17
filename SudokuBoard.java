@@ -2,54 +2,53 @@ package sudokuSolver;
 
 /** 
 * 
-* Sudoku puzzle board class
-* April 15, 2025
+* Class that builds 9x9 Sudoku Puzzle
+* April 17, 2025
 */
 
-// sudoku board class from ChatGPT
+// Code from ChatGPT
 public class SudokuBoard {
-    // 2D array for the board
-	private int[][] board;
-	
-	private int currRow;
-    private int currCol;
+    private Cell[][] board;
+    // current cell
+    private Cell pos; 
 
-	// sudoku board constructor 
-    public SudokuBoard(int[][] initialBoard) {
-        // 9 by 9
-    	this.board = initialBoard;
-    	
+    // Constructor to initialize the board with empty cells
+    public SudokuBoard() {
+        board = new Cell[9][9];
+
+        // Initialize all the cells in the board with row and col
+        for (int row = 0; row < 9; row++) {
+            for (int col = 0; col < 9; col++) {
+                board[row][col] = new Cell(row, col);
+            }
+        }
+        // Initialize the beginning cell position
+        pos = board[0][0];
+    }
+
+    // Method to set the numbers in sudoku board
+    public void setCellNum(int row, int col, int num) {
+    	// Set the number in the cell
+    	board[row][col].setNum(num);  
     }
     
-    // Moves the pointer to a new position
+    // move to different cell on board
     public void moveTo(int row, int col) {
-        currRow = row;
-        currCol = col;
-    }
+		pos = board[row][col];
+	}
 
-    // Returns value at the current cell 
-    public int getCell() {
-        return board[currRow][currCol];  
-    }
+    // get the number of the current cell
+	public int getCellNum() {
+		return pos.getNum(); 
+	}
 
-    // Sets value at the current cell 
-    public void setCell(int value) {
-        board[currRow][currCol] = value;
-    }
-
-    // method to print board 
+    // Method to print the board 
     public void printBoard() {
-    	for (int i = 0; i < 9; i++) {
-    		// Visually separate every three rows
-    		if (i % 3 == 0 && i != 0)
-                System.out.println("- - - - - - - - - - -");
-    		for (int j = 0; j < 9; j++) {
-    			// Visually separate every three columns 
-    			if (j % 3 == 0 && j != 0)
-                    System.out.print("| ");
-                System.out.print(board[i][j] == 0 ? ". " : board[i][j] + " ");
+        for (int row = 0; row < 9; row++) {
+            for (int col = 0; col < 9; col++) {
+                System.out.print(board[row][col].getNum() + " ");  
             }
-            System.out.println();
+            System.out.println();  
         }
     }
 }

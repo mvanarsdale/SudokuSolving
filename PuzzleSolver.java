@@ -5,12 +5,13 @@ public class PuzzleSolver {
 		
 	}
         
-     
-	
+   
 	static void puzzleSolver(SudokuBoard board) {
+		// variable tracking column and row number
 		int rowNum = 0;
 		int columnNum = 0;
 		
+		// traversing the board
 		while (columnNum != 8 && rowNum != 8) {
 			if (board.getCell() == 0) {
 				if (columnNum == 8 && rowNum != 8) {

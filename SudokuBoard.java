@@ -10,10 +10,31 @@ package sudokuSolver;
 public class SudokuBoard {
     // 2D array for the board
 	private int[][] board;
+	
+	private int currRow;
+    private int currCol;
 
 	// sudoku board constructor 
     public SudokuBoard(int[][] initialBoard) {
-        this.board = initialBoard;
+        // 9 by 9
+    	this.board = initialBoard;
+    	
+    }
+    
+    // Moves the pointer to a new position
+    public void moveTo(int row, int col) {
+        currRow = row;
+        currCol = col;
+    }
+
+    // Returns value at the current cell 
+    public int getCell() {
+        return board[currRow][currCol];  
+    }
+
+    // Sets value at the current cell 
+    public void setCell(int value) {
+        board[currRow][currCol] = value;
     }
 
     // method to print board 

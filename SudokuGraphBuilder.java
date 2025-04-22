@@ -3,28 +3,27 @@ package sudokuSolver;
 
 /** 
 * 
-* Class that builds 9x9 Sudoku Puzzle
+* Class that builds a sudoku board
 * April 21, 2025
 */
 
+// libraries 
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-// code from ChatGPT
+
 public class SudokuGraphBuilder {
-    // Graph represented as a map from Cell to its neighboring cells (edges)
-    private Map<Cell, Set<Cell>> graph = new HashMap<>();
+    private static Map<Cell, Set<Cell>> graph = new HashMap<>();
 
     // Method to build the graph
     public Map<Cell, Set<Cell>> buildGraph() {
-        // Initialize the graph with all cells and their neighbors
+        // Initialize the graph with all cells and their neighbors Code from ChatGPT
         for (int row = 0; row < 9; row++) {
             for (int col = 0; col < 9; col++) {
                 Cell current = new Cell(row, col);
                 Set<Cell> neighbors = new HashSet<>();
-
                 // Row & Column neighbors
                 for (int i = 0; i < 9; i++) {
                     // row neighbors
@@ -32,7 +31,6 @@ public class SudokuGraphBuilder {
                     // column neighbors
                     if (i != row) neighbors.add(new Cell(i, col));
                 }
-
                 // box neighbors
                 int boxStartRow = (row / 3) * 3;
                 int boxStartCol = (col / 3) * 3;
@@ -43,15 +41,14 @@ public class SudokuGraphBuilder {
                         }
                     }
                 }
-
-                // Add neighbors to graph
+                // Add neighbors to hash map
                 graph.put(current, neighbors);
             }
         }
         return graph;
     }
 
-    // set the value of a specific cell 
+    // set the value of a specific cell code from ChatGPT
     public void setCellNum(int row, int col, int value) {
         for (Cell cell : graph.keySet()) {
             if (cell.getRow() == row && cell.getCol() == col) {
@@ -61,7 +58,7 @@ public class SudokuGraphBuilder {
         }
     }
 
-    // Get the value of a specific cell
+    // Get the value of a specific cell Code from ChatGPT
     public int getCellNum(int row, int col) {
         for (Cell cell : graph.keySet()) {
             if (cell.getRow() == row && cell.getCol() == col) {
@@ -71,8 +68,21 @@ public class SudokuGraphBuilder {
         }
         return 0;
     }
+    
+    // method to find empty cells on the board 
+    public static Cell emptyCellFinder() {
+		// iterate through cells in graph hash map
+    	for (Cell cell : graph.keySet()) {
+			// return cell if empty
+    		if (cell.getValue() == 0) {
+				return cell;
+			}
+		}
+    	// puzzle is finished 
+		return null;
+    }
 
-    // method to print the board
+    // method to print the board {debugging} method from ChatGPT
     public void printBoard() {
         for (int row = 0; row < 9; row++) {
             // visually separate every three rows 

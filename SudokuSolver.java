@@ -55,7 +55,9 @@ public class SudokuSolver {
 				}
 				
 			}
-		}		
+		}
+		// no solution
+		return false;		
 	}
 		
 		
@@ -83,6 +85,7 @@ public class SudokuSolver {
 		cell = findingEmptyCell(Graph.getVertexAt(row, col, sudokuGraph.map), sudokuGraph);
 		
 		}
+		return cell;
 }
     
 	boolean isValid(Vertex cell, int number, Graph<Vertex> sudokuGraph) {
@@ -98,8 +101,7 @@ public class SudokuSolver {
 	    // no neighbor with that value
 	    return true; 
 	}
-}
 	
-	
+
 
 }

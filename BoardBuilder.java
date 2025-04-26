@@ -114,6 +114,7 @@ public class BoardBuilder {
         }
     }
 
+
     public static void main(String[] args) {
         // Object of graph is created
         Graph<Vertex> sudokuGraph = new Graph<>();

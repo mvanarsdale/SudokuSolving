@@ -1,6 +1,9 @@
 package sudokuSolver;
 
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 //Java program to implement Graph FROM Geeks4Geeks
 //with the help of Generics
 
@@ -89,8 +92,17 @@ class Graph<T> {
 	             + " and " + d + ".");
 	     }
 	 }
+	 
+	 // from ChatGPT
+	 public List<T> neighbours(T s) {
+		    if (!map.containsKey(s)) 
+		        return Collections.emptyList(); // just return an empty list if not found (￣∇￣)
 
-	   public void neighbours(T s)
+		    return new ArrayList<>(map.get(s)); // return a copy of neighbors so you can use it ✧(｡•̀ᴗ-)✧
+		}
+
+
+	   public void printNeighbours(T s)
 	 {
 	     if(!map.containsKey(s)) 
 	     return ;
@@ -98,6 +110,17 @@ class Graph<T> {
 	     for(T w:map.get(s))
 	      System.out.print(w+",");
 	 }
+	   
+	  // Code from ChatGPT
+	  public static Vertex getVertexAt(int row, int col, Map<Vertex, List<Vertex>> map) {
+		  for (Vertex v : map.keySet()) {
+			  if (v.getRow() == row && v.getCol() == col) {
+				  return v; 
+		       }
+		  }
+		   return null; 
+		}
+
 
 	 // Prints the adjancency list of each vertex.
 	 @Override public String toString()

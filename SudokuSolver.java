@@ -39,9 +39,12 @@ public class SudokuSolver {
     // Mercedes 
 	// code referenced from: YT@Coding with John [https://www.youtube.com/watch?v=mcXc8Mva2bA]
 	// Solve the Sudoku puzzle using DFS and backtracking
-	public boolean DFS_solveBoard(Vertex cell, Graph<Vertex> sudokuGraph) {
+	public static boolean DFS_solveBoard(Vertex cell, Graph<Vertex> sudokuGraph) {
 		// solved it or no cells left
 		if (cell == null) {	
+			// printing solved board
+			BoardBuilder.printSudokuGraph(sudokuGraph);
+			
 			return true; 
 		}
 		// cell is empty
@@ -61,35 +64,48 @@ public class SudokuSolver {
 	}
 		
 		
-	Vertex findingEmptyCell(Vertex cell, Graph<Vertex> sudokuGraph) {
+	// finding next empty cell in the board
+	static Vertex findingEmptyCell(Vertex cell, Graph<Vertex> sudokuGraph) {
 		if (cell.getValue() == 0) {
 			return cell; 
 		} else {
 		
-		// column and row variables
-		int col = cell.col;
-		int row = cell.row;
+			// column and row variables
+			int col = cell.col;
+			int row = cell.row;
 		
-		// if cell is placed before end of row
-		if (col < 8) {
-			col++;
-		}
+			// if cell is placed before end of row
+			if (col < 8) {
+				col++;
+			}
 		
-		// cell is at the end of the row
-		if (row == 8) {
-			col = 0;
-			row++;
-		}
+			// cell is at the end of the row
+			if (row == 8) {
+				col = 0;
+				row++;
+			}
 		
-		// move cell to find next zero value
-		cell = findingEmptyCell(Graph.getVertexAt(row, col, sudokuGraph.map), sudokuGraph);
-		
+			// move cell to find next zero value
+			cell = findingEmptyCell(Graph.getVertexAt(row, col, sudokuGraph.map), sudokuGraph);
 		}
 		return cell;
-}
+	}
+	
+	// code to find first empty cell from chatGPT
+	public static Vertex findFirstEmptyCell(Graph<Vertex> sudokuGraph) {
+	    for (Vertex v : sudokuGraph.map.keySet()) {
+	        if (v.getValue() == 0) {
+	        	// found empty cell
+	        	return v; 
+	        }
+	    }
+	    // reached end of board 
+	    return null; 
+	}
     
-	boolean isValid(Vertex cell, int number, Graph<Vertex> sudokuGraph) {
-		List<Vertex> neighbors = sudokuGraph.neighbours(cell); // get da neighbors (o´ω｀o)
+	static boolean isValid(Vertex cell, int number, Graph<Vertex> sudokuGraph) {
+		// get list of neighboring nodes
+		List<Vertex> neighbors = sudokuGraph.neighbours(cell); 
 	    
 		// check neighbors of the cell
 	    for (Vertex neighbor : neighbors) {

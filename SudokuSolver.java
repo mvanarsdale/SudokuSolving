@@ -1,6 +1,11 @@
 package sudokuSolver;
 
 import java.util.List;
+import java.util.Queue;
+import java.util.Iterator;
+import java.util.LinkedList;
+
+
 
 /** 
 * 
@@ -18,55 +23,81 @@ import java.util.List;
 * Bulletin of Computer Science and Electrical Engineering.2. 74-83. 10.25008/bcsee.v2i2.1146. 
 */
 public class SudokuSolver {
+	// Variable tracking solutions
+	static int solutionCount = 0;
+	// queue for BFS
+	static Queue<Graph<Vertex>> boardHolder = new LinkedList<>();
 	
     
     // Lailani
-    public boolean BFSsolver() {
-        return BFS_solver();
+	public static void BFS_solveBoard(Vertex cell, Graph<Vertex> sudokuGraph) {
+		cell = findingEmptyCell(cell, sudokuGraph);
+		
+		for (int PosNumber = 1; PosNumber <= 9; PosNumber++) {
+			// if number is valid set cells value
+			if (isValid(cell, PosNumber, sudokuGraph) == true) {
+				// set valid value
+				cell.setValue(PosNumber);
+				
+				// copy valid board 
+				Graph<Vertex> clonedBoard = sudokuGraph.clone();
+				// add to queue of valid boards 
+				boardHolder.add(clonedBoard);
+				
+				return;
+			}
+		}
+		
+		// check for solved boards
+	    Iterator<Graph<Vertex>> iter = boardHolder.iterator();
+	    // iterate through boards in iter
+	    while (iter.hasNext()) {
+	    	Graph<Vertex> board = iter.next();
+	    	
+	    	// go through vertex's in  each board
+	    	for (Vertex vertex : board) {
+	    		// if there is an error remove it from queue holding valid boards
+	    		if (isValid(vertex, vertex.getValue(), board) == false) {
+	    			iter.remove();
+	    			break;
+	    		}
+	    	}	
+	    }
+		
+		
+		
     }
 	
-	// Lailani
-	public static boolean BFS_solver() {
-		// BFS logic
-		return false;	
-	}
-    
-    
-  
 	// Mercedes
 	// Solve the Sudoku puzzle using DFS and backtracking
 	// code referenced from: YT@Coding with John [https://www.youtube.com/watch?v=mcXc8Mva2bA]
-	public static boolean DFS_solveBoard(Vertex cell, Graph<Vertex> sudokuGraph) {
+	public static void DFS_solveBoard(Vertex cell, Graph<Vertex> sudokuGraph) {
 		cell = findingEmptyCell(cell, sudokuGraph);
 		// solved it or no cells left
 		if (cell == null) {	
+			// increasing solutions counter 		
+			solutionCount++;
 			// printing solved board
-			//System.out.println("_______________________");
 			BoardBuilder.printSudokuGraph(sudokuGraph);
-			
-			return true; 
+			// print number of solutions found 
+			System.out.println("\nsolutions found: " + solutionCount);
+			return;
 		}
-		
 		// tries placing numbers 1-9
 		for (int PosNumber = 1; PosNumber <= 9; PosNumber++) {
 			// if number is valid set cells value
 			if (isValid(cell, PosNumber, sudokuGraph) == true) {
+				// set valid value
 				cell.setValue(PosNumber);
-				//BoardBuilder.printSudokuGraph(sudokuGraph);
-				
-				// check overall solution
-				if (DFS_solveBoard(cell, sudokuGraph)) {
-					return true;
-				}
+				// call recursive function
+				DFS_solveBoard(cell, sudokuGraph);
+				// Backtrack 
+	            cell.setValue(0);
 			}
-			// Backtrack
-            cell.setValue(0);
+			
 		}
-		
-		// no solution
-		return false;		
+			
 	}
-		
 		
 	// finding empty cell in the board
 	static Vertex findingEmptyCell(Vertex cell, Graph<Vertex> sudokuGraph) {

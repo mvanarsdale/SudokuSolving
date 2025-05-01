@@ -77,13 +77,37 @@ public class BoardBuilder {
 	        }
 	    }
 	}
+	
+	// add edges between cells in the same row, column, and box
+		public static void addEdgesToCell3D(Vertex cell, Graph<Vertex> sudokuGraph) {
+		    int row = cell.row;
+		    int col = cell.col;
+		    int layer = cell.layer;
+
+		    // Go through all vertices in the graph to find neighbors code from ChatGPT
+		    for (Vertex other : sudokuGraph.map.keySet()) {
+		        if (other == cell) continue;
+
+		        // checks value of current cell and compares to others in the same row
+		        boolean sameRow = other.row == row;
+		        // checks value of current cell and compares to others in the same column
+		        boolean sameCol = other.col == col;
+		        // checks value of current cell and compares to others in the same box
+		        boolean sameBox = (other.row / 3 == row / 3) && (other.col / 3 == col / 3);
+
+		        // if its a neighbor to the node in any way
+		        if (sameRow || sameCol || sameBox) {
+		            // add an edge between nodes
+		        	sudokuGraph.addEdge(cell, other, true); 
+		        }
+		    }
+		}
     
     
     // printing function from ChatGPT for debugging
     public static void printSudokuGraph(Graph<Vertex> sudokuGraph) {
         for (int row = 0; row < 9; row++) {
             for (int col = 0; col < 9; col++) {
-                Vertex dummy = new Vertex(row, col, 0); // value doesn't matter for lookup
                 
                 boolean found = false;
 
@@ -119,11 +143,20 @@ public class BoardBuilder {
         // Object of graph is created
         Graph<Vertex> sudokuGraph = new Graph<>();
 
-        // Read the Sudoku grid from a file
+        ////////// Replace "sudoku_puzzle_1" with 2-Med or 3-Hard /////////////////
+        // Read the Sudoku grid from a file - Easy 
         loadBoardFromFile("sudoku_puzzle_1.txt", sudokuGraph);
-        
+        // difficulty
+        System.out.println("Puzzle");
         // Print the graph 
         printSudokuGraph(sudokuGraph);
-
-    }
+        
+        // solution
+        System.out.println("\nSoltion");
+        
+        Vertex startCell = Graph.getVertexAt(0, 0, sudokuGraph.map);
+        if (startCell != null) {
+            SudokuSolver.DFS_solveBoard(startCell, sudokuGraph);
+        }
+   }  
 }

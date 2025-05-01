@@ -120,6 +120,30 @@ class Graph<T> {
 		  }
 		   return null; 
 		}
+	  
+	  
+	  public Graph<Vertex> deepClone() {
+		    Graph<Vertex> newGraph = new Graph<>();
+		    Map<Integer, Vertex> clonedVertices = new HashMap<>();
+
+		    // Step 1: copy all vertices (but not their neighbors yet)
+		    for (Vertex v : this.getVertices()) {
+		        Vertex newV = new Vertex(v.getId(), v.getValue());
+		        clonedVertices.put(v.getId(), newV);
+		        newGraph.addVertex(newV);
+		    }
+
+		    // Step 2: re-connect neighbors using the cloned vertices
+		    for (Vertex v : this.getVertices()) {
+		        Vertex clonedV = clonedVertices.get(v.getId());
+		        for (Vertex neighbor : v.getNeighbors()) {
+		            Vertex clonedNeighbor = clonedVertices.get(neighbor.getId());
+		            clonedV.addNeighbor(clonedNeighbor);
+		        }
+		    }
+
+		    return newGraph;
+		}
 
 
 	 // Prints the adjancency list of each vertex.

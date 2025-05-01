@@ -2,14 +2,16 @@ package sudokuSolver;
 import java.util.Objects;
 
 class Vertex {
-    int row, col, value;
+    int row, col, layer, value;
 
     Vertex(int row, int col, int value) {
         // int value of row
     	this.row = row;
     	// int value of column
     	this.col = col;
-    	// int value of the number at cordinate 
+    	// layer for 3D
+    	this.layer = layer;
+    	// int value of the number at coordinate 
     	this.value = value;
     }
     
@@ -21,6 +23,11 @@ class Vertex {
     // column getter
     public int getCol() {
     	return this.col; 
+    }
+    
+    // layer getter for 3D puzzles
+    public int getLayer() {
+    	return this.layer; 
     }
     
     // value getter

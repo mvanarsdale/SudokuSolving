@@ -91,7 +91,7 @@ public class SudokuSolver {
 		}	
 	}
 	
-	// Solve the Sudoku puzzle using DFS and backtracking
+		// Solve the Sudoku puzzle using DFS and backtracking
 		// code referenced from: YT@Coding with John [https://www.youtube.com/watch?v=mcXc8Mva2bA]
 		public static void DFS_solveBoard3D(Graph<Vertex> sudokuGraph_3D, Vertex cell) {
 			// solved it or no cells left
@@ -158,7 +158,4 @@ public class SudokuSolver {
 	    // no neighbor with that value
 	    return true; 
 	}
-	
-
-
 }

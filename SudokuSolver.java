@@ -1,16 +1,21 @@
 package sudokuSolver;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Queue;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
+
+
 
 /** 
 * 
-* Class that produces sudoku board solutions
+* Class that produces sudoku board solutions using a DLS and BFS approach 
 * April 21, 2025
-*/
 
 
 
-/** 
 * This solution approach was referenced from:
 * 
 * Lina, Tirsa & Rumetna, Matheus. (2021).
@@ -18,55 +23,75 @@ import java.util.List;
 * Bulletin of Computer Science and Electrical Engineering.2. 74-83. 10.25008/bcsee.v2i2.1146. 
 */
 public class SudokuSolver {
+	// Variable tracking solutions
+	static int solutionCount = 0;
+	// queue for BFS
+	static Queue<Graph<Vertex>> boardHolder = new LinkedList<>();
 	
     
-    // Lailani
-    public boolean BFSsolver() {
-        return BFS_solver();
-    }
-	
-	// Lailani
-	public static boolean BFS_solver() {
-		// BFS logic
-		return false;	
+	public static void BFS_solveBoard(Vertex cell, Graph<Vertex> sudokuGraph) {
+	    boardHolder.clear(); // clear leftovers from old runs
+	    boardHolder.add(sudokuGraph); // start with original board
+
+	    while (!boardHolder.isEmpty()) {
+	        Graph<Vertex> board = boardHolder.poll(); // dequeue board
+	        Vertex emptyCell = findEmptyCell(board); // find first empty spot
+
+	        // ✅ If there's no empty cell, it's solved!
+	        if (emptyCell == null) {
+	            solutionCount++;
+	            System.out.println("🎉 Solution #" + solutionCount);
+	            BoardBuilder.printSudokuGraph(board);
+	            System.out.println();
+	            continue;
+	        }
+
+	        // Try digits 1-9
+	        for (int number = 1; number <= 9; number++) {
+	            if (isValid(emptyCell, number, board)) {
+	                // 🔁 Clone board BEFORE modifying it
+	                Graph<Vertex> clonedBoard = board.cloneGraph();
+	                
+	                // 🧠 Re-find that same cell in the cloned board
+	                Vertex clonedCell = Graph.getVertexAt(emptyCell.row, emptyCell.col, clonedBoard.map);
+	                if (clonedCell != null) {
+	                    clonedCell.setValue(number); // Set value safely
+	                    boardHolder.add(clonedBoard); // enqueue for next loop
+	                }
+	            }
+	        }
+	    }
 	}
-    
-    
-  
+
+
 	// Mercedes
 	// Solve the Sudoku puzzle using DFS and backtracking
 	// code referenced from: YT@Coding with John [https://www.youtube.com/watch?v=mcXc8Mva2bA]
-	public static boolean DFS_solveBoard(Vertex cell, Graph<Vertex> sudokuGraph) {
+	public static void DFS_solveBoard(Vertex cell, Graph<Vertex> sudokuGraph) {
 		cell = findingEmptyCell(cell, sudokuGraph);
 		// solved it or no cells left
 		if (cell == null) {	
+			// increasing solutions counter 		
+			solutionCount++;
 			// printing solved board
-			//System.out.println("_______________________");
 			BoardBuilder.printSudokuGraph(sudokuGraph);
-			
-			return true; 
+			// print number of solutions found 
+			System.out.println("\nsolutions found: " + solutionCount);
+			return;
 		}
-		
 		// tries placing numbers 1-9
 		for (int PosNumber = 1; PosNumber <= 9; PosNumber++) {
 			// if number is valid set cells value
 			if (isValid(cell, PosNumber, sudokuGraph) == true) {
+				// set valid value
 				cell.setValue(PosNumber);
-				//BoardBuilder.printSudokuGraph(sudokuGraph);
-				
-				// check overall solution
-				if (DFS_solveBoard(cell, sudokuGraph)) {
-					return true;
-				}
+				// call recursive function
+				DFS_solveBoard(cell, sudokuGraph);
+				// Backtrack 
+	            cell.setValue(0);
 			}
-			// Backtrack
-            cell.setValue(0);
-		}
-		
-		// no solution
-		return false;		
+		}	
 	}
-		
 		
 	// finding empty cell in the board
 	static Vertex findingEmptyCell(Vertex cell, Graph<Vertex> sudokuGraph) {
@@ -95,6 +120,20 @@ public class SudokuSolver {
 			}
 		}
     return null;
+	}
+	
+	
+	// Finds the first empty cell on the board (value == 0)
+	static Vertex findEmptyCell(Graph<Vertex> board) {
+		for (int row = 0; row < 9; row++) {
+			for (int col = 0; col < 9; col++) {
+				Vertex v = Graph.getVertexAt(row, col, board.map);
+				if (v != null && v.getValue() == 0) {
+					return v;
+				}
+			}
+		}
+		return null; 
 	}
     
 	// checks if number value is in current cells neighbors 

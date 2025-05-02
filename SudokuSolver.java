@@ -1,24 +1,27 @@
 package sudokuSolver;
 
+
+// libraries 
 import java.util.List;
 import java.util.Queue;
 import java.util.LinkedList;
 
 
+/** 
+* Class that produces sudoku board solutions using a DLS and BFS approach 
+* @author ()
+* @version (2025)
+*/
+
 
 /** 
-* 
-* Class that produces sudoku board solutions using a DLS and BFS approach 
-* April 21, 2025
-
-
-
 * This solution approach was referenced from:
 * 
 * Lina, Tirsa & Rumetna, Matheus. (2021).
 * Comparison Analysis of Breadth First Search and Depth Limited Search Algorithms in Sudoku Game. 
 * Bulletin of Computer Science and Electrical Engineering.2. 74-83. 10.25008/bcsee.v2i2.1146. 
 */
+
 public class SudokuSolver {
 	// Variable tracking solutions
 	static int solutionCount = 0;
@@ -107,6 +110,7 @@ public class SudokuSolver {
 					
 					// set valid value
 					cell.setValue(PosNumber);
+					BoardBuilder_3D.print3DSudokuGraph(sudokuGraph_3D);
 					//System.out.println("Trying " + PosNumber + " at (" + cell.layer + "," + cell.row + "," + cell.col + ")");
 					
 					// call recursive function

@@ -1,4 +1,14 @@
 package sudokuSolver;
+
+
+/** 
+* Vertex class for graph
+* @author ()
+* @version (2025)
+*/
+
+
+//libraries
 import java.util.Objects;
 
 class Vertex {

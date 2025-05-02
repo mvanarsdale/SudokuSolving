@@ -161,9 +161,9 @@ public class BoardBuilder {
         // easy puzzle file
         loadBoardFromFile("sudoku_puzzle_1.txt", sudokuGraph);
         // medium puzzle file
-        loadBoardFromFile("sudoku_puzzle_2.txt", sudokuGraph);
+        //loadBoardFromFile("sudoku_puzzle_2.txt", sudokuGraph);
         // hard puzzle file
-        loadBoardFromFile("sudoku_puzzle_3.txt", sudokuGraph);
+        //loadBoardFromFile("sudoku_puzzle_3.txt", sudokuGraph);
         
         // difficulty
         System.out.println("Puzzle");

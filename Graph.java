@@ -96,12 +96,14 @@ class Graph<T> {
 	 // from ChatGPT
 	 public List<T> neighbours(T s) {
 		    if (!map.containsKey(s)) 
-		        return Collections.emptyList(); // just return an empty list if not found (￣∇￣)
+		    	// just return an empty list
+		    	return Collections.emptyList(); 
 
-		    return new ArrayList<>(map.get(s)); // return a copy of neighbors so you can use it ✧(｡•̀ᴗ-)✧
+		    // return a copy of neighbors
+		    return new ArrayList<>(map.get(s)); 
 		}
 
-
+	 	// I dont think this is needed - code form geeks4geeks
 	   public void printNeighbours(T s)
 	 {
 	     if(!map.containsKey(s)) 
@@ -120,7 +122,28 @@ class Graph<T> {
 		  }
 		   return null; 
 		}
+	  
+	// Lailani's cloning Graph function
+	public static Graph<Vertex> cloneGraph(Graph<Vertex> original) {
+		Graph<Vertex> copy = new Graph<>();
+		Map<Vertex, Vertex> vertexMap = new HashMap<>();
 
+		for (Vertex v : original.map.keySet()) {
+			Vertex newV = new Vertex(v.row, v.col, v.value);
+			copy.addVertex(newV);
+			vertexMap.put(v, newV);
+		}
+
+		for (Vertex v : original.map.keySet()) {
+			Vertex newV = vertexMap.get(v);
+			for (Vertex neighbor : original.map.get(v)) {
+				copy.addEdge(newV, vertexMap.get(neighbor), true);
+			}
+		}
+		return copy;
+	}
+	  
+	  
 
 	 // Prints the adjancency list of each vertex.
 	 @Override public String toString()
@@ -137,4 +160,9 @@ class Graph<T> {
 
 	     return (builder.toString());
 	 }
+
+	public Graph<Vertex> cloneGraph() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	}

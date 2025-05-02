@@ -3,12 +3,12 @@ package sudokuSolver;
 
 
 /** 
-* Sudoku Solver for 3D puzzles
+* Sudoku board builder for 3D graphs
 * @author ()
 * @version (2025)
 */
 
-// Libraries //
+// libraries 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;

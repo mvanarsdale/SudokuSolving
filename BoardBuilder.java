@@ -1,10 +1,14 @@
 package sudokuSolver;
 
+
 /** 
-* Sudoku Solver for 3D puzzles
+* Sudoku board builder 
+* @author ()
+* @version (2025)
 */
 
 
+// libraries
 import java.io.*;
 
 public class BoardBuilder {
@@ -45,7 +49,6 @@ public class BoardBuilder {
 	            // Iterate to the next row
 	            row++; 
 	        }
-
 	        // close reader
 	        reader.close();
 	     // handles errors 

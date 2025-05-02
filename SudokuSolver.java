@@ -107,7 +107,7 @@ public class SudokuSolver {
 					
 					// set valid value
 					cell.setValue(PosNumber);
-					System.out.println("Trying " + PosNumber + " at (" + cell.layer + "," + cell.row + "," + cell.col + ")");
+					//System.out.println("Trying " + PosNumber + " at (" + cell.layer + "," + cell.row + "," + cell.col + ")");
 					
 					// call recursive function
 					DFS_solveBoard3D(sudokuGraph_3D, findEmptyCell(sudokuGraph_3D));

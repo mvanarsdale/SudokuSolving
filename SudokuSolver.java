@@ -88,6 +88,35 @@ public class SudokuSolver {
 		}	
 	}
 	
+	// Solve the Sudoku puzzle using DFS and backtracking
+		// code referenced from: YT@Coding with John [https://www.youtube.com/watch?v=mcXc8Mva2bA]
+		public static void DFS_solveBoard3D(Graph<Vertex> sudokuGraph_3D, Vertex cell) {
+			// solved it or no cells left
+			if (cell == null) {
+				// increasing solutions counter 		
+				solutionCount++;
+				// print number of solutions found 
+				System.out.println("\nsolutions found: " + solutionCount);
+				BoardBuilder.printSudokuGraph(sudokuGraph_3D);
+				return;
+			}
+			// tries placing numbers 1-9
+			for (int PosNumber = 1; PosNumber <= 9; PosNumber++) {
+				// if number is valid set cells value
+				if (isValid(cell, PosNumber, sudokuGraph_3D) == true) {
+					
+					// set valid value
+					cell.setValue(PosNumber);
+					System.out.println("Trying " + PosNumber + " at (" + cell.layer + "," + cell.row + "," + cell.col + ")");
+					
+					// call recursive function
+					DFS_solveBoard3D(sudokuGraph_3D, findEmptyCell(sudokuGraph_3D));
+					// Backtrack 
+		            cell.setValue(0);
+				}
+			}	
+		}
+	
 	// Lailani - finds the first empty cell on the board 
 	static Vertex findEmptyCell(Graph<Vertex> board) {
 		// for each cell in diff layer
@@ -97,7 +126,7 @@ public class SudokuSolver {
 				// for each cell in diff row
 				for (int col = 0; col < 9; col++) {
 					// get the vertex/cell
-					Vertex v = Graph.getVertexAt(row, col, board.map);
+					Vertex v = Graph.get3DVertexAt(row, col, layer, board.map);
 					// check if its empty 
 					if (v != null && v.getValue() == 0) {
 						//System.out.println("Found empty cell at Layer " + layer + ", Row " + row + ", Col " + col);

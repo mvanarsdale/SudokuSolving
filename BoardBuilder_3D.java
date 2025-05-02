@@ -16,7 +16,7 @@ import java.io.IOException;
 public class BoardBuilder_3D {
 
 	// file reader method from ChatGPT
-	public static void load3DBoardFromFile(String fileName, Graph<Vertex> sudokuGraph) {
+	public static void load3DBoardFromFile(String fileName, Graph<Vertex> sudokuGraph_3D) {
 	    try {
 	        BufferedReader reader = new BufferedReader(new FileReader(fileName));
 	        String line;
@@ -42,9 +42,9 @@ public class BoardBuilder_3D {
 	                // create vertex in graph
 	                Vertex cell = new Vertex(row, col, layer, num);
 	                // Add the vertex to the graph
-	                sudokuGraph.addVertex(cell);
+	                sudokuGraph_3D.addVertex(cell);
 	                // cals method (for 2D graphs) to add edges between neighbors
-	                addEdgesToCell3D(cell, sudokuGraph);
+	                addEdgesToCell3D(cell, sudokuGraph_3D);
 	            }
 	            // Iterate to the next row
 	            row++; 
@@ -67,34 +67,38 @@ public class BoardBuilder_3D {
 	
 	// add edges between cells in the same row, column, box
 	// 3D enhancement method
-	public static void addEdgesToCell3D(Vertex cell, Graph<Vertex> sudokuGraph) {
+	public static void addEdgesToCell3D(Vertex cell, Graph<Vertex> sudokuGraph_3D) {
 	    int row = cell.row;
 	    int col = cell.col;
 	    int layer = cell.layer;
 
 	    // Go through all vertices in the graph to find neighbors code from ChatGPT
-	    for (Vertex other : sudokuGraph.map.keySet()) {
+	    for (Vertex other : sudokuGraph_3D.map.keySet()) {
 	        if (other == cell) continue;
 
+	        // checks if cells are on same layer 
+	        boolean sameLayer = other.layer == layer;
+	        
 	        // checks value of current cell and compares to others in the same row
-	        boolean sameRow = other.row == row;
+	        boolean sameRow = sameLayer && other.row == row;
 	        // checks value of current cell and compares to others in the same column
-	        boolean sameCol = other.col == col;
+	        boolean sameCol = sameLayer && other.col == col;
 	        // checks value of current cell and compares to others in the same box
-	        boolean sameBox = (other.row / 3 == row / 3) && (other.col / 3 == col / 3);
+	        boolean sameBox = sameLayer && (other.row / 3 == row / 3) && (other.col / 3 == col / 3);
+	       
 	        // 3D checks value of current cell and compares to others in different layers with the same coordinates 
-	        boolean layerNeighbors = (other.col == col && other.row == row && other.layer != layer);
+	        boolean layerNeighbor = (other.col == col && other.row == row && !(sameLayer));
 
 	        // if its a neighbor to the node in any way
-	        if (sameRow || sameCol || sameBox || layerNeighbors) {
+	        if (sameRow || sameCol || sameBox || layerNeighbor) {
 	            // add an edge between nodes
-	        	sudokuGraph.addEdge(cell, other, true); 
+	        	sudokuGraph_3D.addEdge(cell, other, true); 
 	        }
 	    }
 	}
 
 	// 3D printing function from ChatGPT
-	public static void print3DSudokuGraph(Graph<Vertex> sudokuGraph) {
+	public static void print3DSudokuGraph(Graph<Vertex> sudokuGraph_3D) {
 		// specfic to sudoku puzzles with 3 layers
 	    for (int layer = 0; layer < 3; layer++) {
 	        System.out.println("Layer " + layer + ":");
@@ -104,7 +108,7 @@ public class BoardBuilder_3D {
 	                // initalize the cell as being empty
 	            	boolean found = false;
 	                // look through each vertex in the graph
-	            	for (Vertex v : sudokuGraph.map.keySet()) {
+	            	for (Vertex v : sudokuGraph_3D.map.keySet()) {
 	            		if (v.row == row && v.col == col && v.layer == layer) {
 	                        System.out.print((v.value == 0 ? ". " : v.value + " "));
 	                        // change if cell has a number value 
@@ -147,12 +151,12 @@ public class BoardBuilder_3D {
         print3DSudokuGraph(sudokuGraph_3D);
         
         // solution
-        System.out.println("\nSolution");
+        System.out.println("\n+++++++++SOLUTION+++++++");
         print3DSudokuGraph(sudokuGraph_3D);
         
         Vertex startCell = Graph.get3DVertexAt(0, 0, 0, sudokuGraph_3D.map);
         if (startCell != null) {
-            SudokuSolver.DFS_solveBoard(sudokuGraph_3D);
+            SudokuSolver.DFS_solveBoard3D(sudokuGraph_3D, startCell);
             //SudokuSolver.BFS_solveBoard(startCell, sudokuGraph);
         }
    }  

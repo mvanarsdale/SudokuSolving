@@ -96,12 +96,14 @@ class Graph<T> {
 	 // from ChatGPT
 	 public List<T> neighbours(T s) {
 		    if (!map.containsKey(s)) 
-		        return Collections.emptyList(); // just return an empty list if not found (￣∇￣)
+		    	// just return an empty list
+		    	return Collections.emptyList(); 
 
-		    return new ArrayList<>(map.get(s)); // return a copy of neighbors so you can use it ✧(｡•̀ᴗ-)✧
+		    // return a copy of neighbors
+		    return new ArrayList<>(map.get(s)); 
 		}
 
-
+	 	// I dont think this is needed - code form geeks4geeks
 	   public void printNeighbours(T s)
 	 {
 	     if(!map.containsKey(s)) 
@@ -121,30 +123,34 @@ class Graph<T> {
 		   return null; 
 		}
 	  
-	  
-	  public Graph<Vertex> deepClone() {
-		    Graph<Vertex> newGraph = new Graph<>();
-		    Map<Integer, Vertex> clonedVertices = new HashMap<>();
+	// Lailani
+	//help from ChatGPT
+	public Graph<Vertex> cloneGraph() {
+		Graph<Vertex> clonedGraph = new Graph<>();
 
-		    // Step 1: copy all vertices (but not their neighbors yet)
-		    for (Vertex v : this.getVertices()) {
-		        Vertex newV = new Vertex(v.getId(), v.getValue());
-		        clonedVertices.put(v.getId(), newV);
-		        newGraph.addVertex(newV);
-		    }
+		Map<Vertex, Vertex> vertexMap = new HashMap<>();
 
-		    // Step 2: re-connect neighbors using the cloned vertices
-		    for (Vertex v : this.getVertices()) {
-		        Vertex clonedV = clonedVertices.get(v.getId());
-		        for (Vertex neighbor : v.getNeighbors()) {
-		            Vertex clonedNeighbor = clonedVertices.get(neighbor.getId());
-		            clonedV.addNeighbor(clonedNeighbor);
-		        }
-		    }
-
-		    return newGraph;
+		// Clone all vertices
+		for (T originalT : this.map.keySet()) {
+			Vertex original = (Vertex) originalT;
+		    Vertex copy = new Vertex(original.row, original.col, original.value);
+		    vertexMap.put(original, copy);
+		    clonedGraph.addVertex(copy);
 		}
 
+		// Clone all edges
+		for (T originalT : this.map.keySet()) {
+			Vertex original = (Vertex) originalT;
+		    Vertex copy = vertexMap.get(original);
+		    for (T neighborT : this.map.get(original)) {
+		    	Vertex neighbor = (Vertex) neighborT;
+		        Vertex neighborCopy = vertexMap.get(neighbor);
+		        clonedGraph.addEdge(copy, neighborCopy, true);
+		    }
+		}
+		    return clonedGraph;
+		}
+	  
 
 	 // Prints the adjancency list of each vertex.
 	 @Override public String toString()
@@ -161,4 +167,5 @@ class Graph<T> {
 
 	     return (builder.toString());
 	 }
+
 	}

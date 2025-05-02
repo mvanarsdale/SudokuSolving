@@ -1,7 +1,9 @@
 package sudokuSolver;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Queue;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -9,13 +11,11 @@ import java.util.LinkedList;
 
 /** 
 * 
-* Class that produces sudoku board solutions
+* Class that produces sudoku board solutions using a DLS and BFS approach 
 * April 21, 2025
-*/
 
 
 
-/** 
 * This solution approach was referenced from:
 * 
 * Lina, Tirsa & Rumetna, Matheus. (2021).
@@ -29,46 +29,54 @@ public class SudokuSolver {
 	static Queue<Graph<Vertex>> boardHolder = new LinkedList<>();
 	
     
-    // Lailani
 	public static void BFS_solveBoard(Vertex cell, Graph<Vertex> sudokuGraph) {
-		cell = findingEmptyCell(cell, sudokuGraph);
-		
-		for (int PosNumber = 1; PosNumber <= 9; PosNumber++) {
-			// if number is valid set cells value
-			if (isValid(cell, PosNumber, sudokuGraph) == true) {
-				// set valid value
-				cell.setValue(PosNumber);
+		// add initial board in queue
+		boardHolder.add(sudokuGraph);
+
+		// while queue has boards
+		while (!boardHolder.isEmpty()) {
+			// board removed from the queue
+			Graph<Vertex> board = boardHolder.poll();
+			//System.out.println("Queue size: " + boardHolder.size());
+			// find empty cell in that board
+			Vertex emptyCell = findEmptyCell(board);
+			
+			// printing solved board
+			BoardBuilder.printSudokuGraph(board);
+			
+			System.out.println("-------++++++++++++++++++---------------");
+			
+
+
+			// board has been finished and solved
+		    if (emptyCell == null) {
+		    	// update solutions counter variable
+		    	solutionCount++;
+		    	// printing solved board
+				BoardBuilder.printSudokuGraph(sudokuGraph);
 				
-				// copy valid board 
-				Graph<Vertex> clonedBoard = sudokuGraph.clone();
-				// add to queue of valid boards 
-				boardHolder.add(clonedBoard);
-				
-				return;
-			}
+		        continue;
+		    }
+
+		    for (int PosNumber = 1; PosNumber <= 9; PosNumber++) {
+		    	// if number is valid set cells value
+		    	if (isValid(emptyCell, PosNumber, board) == true) {
+		    		// printing solved board
+					//BoardBuilder.printSudokuGraph(board);
+					
+					//System.out.println("-------++++++++++++++++++---------------");
+		    		// copy valid board 
+		    		Graph<Vertex> clonedBoard = board.cloneGraph();
+		    		
+		    		// set valid value
+		    		emptyCell.setValue(PosNumber);
+		    		// add to queue of valid boards 
+		    		boardHolder.add(clonedBoard);
+		    	}
+		    }
 		}
-		
-		// check for solved boards
-	    Iterator<Graph<Vertex>> iter = boardHolder.iterator();
-	    // iterate through boards in iter
-	    while (iter.hasNext()) {
-	    	Graph<Vertex> board = iter.next();
-	    	
-	    	// go through vertex's in  each board
-	    	for (Vertex vertex : board) {
-	    		// if there is an error remove it from queue holding valid boards
-	    		if (isValid(vertex, vertex.getValue(), board) == false) {
-	    			iter.remove();
-	    			break;
-	    		}
-	    	}	
-	    }
-		
-		
-		
-    }
-	
-	// Mercedes
+   }
+
 	// Solve the Sudoku puzzle using DFS and backtracking
 	// code referenced from: YT@Coding with John [https://www.youtube.com/watch?v=mcXc8Mva2bA]
 	public static void DFS_solveBoard(Vertex cell, Graph<Vertex> sudokuGraph) {
@@ -94,12 +102,10 @@ public class SudokuSolver {
 				// Backtrack 
 	            cell.setValue(0);
 			}
-			
-		}
-			
+		}	
 	}
 		
-	// finding empty cell in the board
+	// finding empty cell in the board - DFS
 	static Vertex findingEmptyCell(Vertex cell, Graph<Vertex> sudokuGraph) {
 		// column and row variables
 		int col = cell.col;
@@ -126,6 +132,20 @@ public class SudokuSolver {
 			}
 		}
     return null;
+	}
+	
+	
+	// Finds the first empty cell on the board - BFS
+	static Vertex findEmptyCell(Graph<Vertex> board) {
+		for (int row = 0; row < 9; row++) {
+			for (int col = 0; col < 9; col++) {
+				Vertex v = Graph.getVertexAt(row, col, board.map);
+				if (v != null && v.getValue() == 0) {
+					return v;
+				}
+			}
+		}
+		return null; 
 	}
     
 	// checks if number value is in current cells neighbors 

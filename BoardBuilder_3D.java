@@ -87,7 +87,7 @@ public class BoardBuilder_3D {
 	        boolean sameBox = sameLayer && (other.row / 3 == row / 3) && (other.col / 3 == col / 3);
 	       
 	        // 3D checks value of current cell and compares to others in different layers with the same coordinates 
-	        boolean layerNeighbor = (other.col == col && other.row == row && !(sameLayer));
+	        boolean layerNeighbor = (other.col == col && other.row == row && other.layer != layer);
 
 	        // if its a neighbor to the node in any way
 	        if (sameRow || sameCol || sameBox || layerNeighbor) {
@@ -154,7 +154,7 @@ public class BoardBuilder_3D {
         System.out.println("\n+++++++++SOLUTION+++++++");
         print3DSudokuGraph(sudokuGraph_3D);
         
-        Vertex startCell = Graph.get3DVertexAt(0, 0, 0, sudokuGraph_3D.map);
+        Vertex startCell = SudokuSolver.findEmptyCell(sudokuGraph_3D);
         if (startCell != null) {
             SudokuSolver.DFS_solveBoard3D(sudokuGraph_3D, startCell);
             //SudokuSolver.BFS_solveBoard(startCell, sudokuGraph);

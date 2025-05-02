@@ -29,6 +29,9 @@ public class SudokuSolver {
 	static Queue<Graph<Vertex>> boardHolder = new LinkedList<>();
 	
     
+	// Lailani
+	//Using BFS to find the different solutions by using brite force approach
+	//Reference paper <https://hypermode.com/blog/depth-first-search-vs-breadth-first-search>
 	public static void BFS_solveBoard(Vertex cell, Graph<Vertex> sudokuGraph) {
 		// add initial board in queue
 		boardHolder.add(sudokuGraph);

@@ -69,7 +69,7 @@ public class SudokuSolver {
 
 	// Solve the Sudoku puzzle using DFS and backtracking
 	// code referenced from: YT@Coding with John [https://www.youtube.com/watch?v=mcXc8Mva2bA]
-	public static void DFS_solveBoard(Graph<Vertex> sudokuGraph) {
+	public static void DLS_solveBoard(Graph<Vertex> sudokuGraph) {
 		Vertex cell = findEmptyCell(sudokuGraph);
 		// solved it or no cells left
 		if (cell == null) {
@@ -87,7 +87,7 @@ public class SudokuSolver {
 				// set valid value
 				cell.setValue(PosNumber);
 				// call recursive function
-				DFS_solveBoard(sudokuGraph);
+				DLS_solveBoard(sudokuGraph);
 				// Backtrack 
 	            cell.setValue(0);
 			}
@@ -96,7 +96,7 @@ public class SudokuSolver {
 	
 	// Solve the Sudoku puzzle using DFS and backtracking
 	// code referenced from: YT@Coding with John [https://www.youtube.com/watch?v=mcXc8Mva2bA]
-	public static void DFS_solveBoard3D(Graph<Vertex> sudokuGraph_3D, Vertex cell) {
+	public static void DLS_solveBoard3D(Graph<Vertex> sudokuGraph_3D, Vertex cell) {
 		// solved it or no cells left
 		if (cell == null) {
 			// increasing solutions counter 		
@@ -117,7 +117,7 @@ public class SudokuSolver {
 				//System.out.println("Trying " + PosNumber + " at (" + cell.layer + "," + cell.row + "," + cell.col + ")");
 					
 				// call recursive function
-				DFS_solveBoard3D(sudokuGraph_3D, findEmptyCell(sudokuGraph_3D));
+				DLS_solveBoard3D(sudokuGraph_3D, findEmptyCell(sudokuGraph_3D));
 				// Backtrack 
 		        cell.setValue(0);
 			}

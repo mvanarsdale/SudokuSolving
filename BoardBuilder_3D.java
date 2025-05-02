@@ -156,7 +156,7 @@ public class BoardBuilder_3D {
         
         Vertex startCell = SudokuSolver.findEmptyCell(sudokuGraph_3D);
         if (startCell != null) {
-            SudokuSolver.DFS_solveBoard3D(sudokuGraph_3D, startCell);
+            SudokuSolver.DLS_solveBoard3D(sudokuGraph_3D, startCell);
             //SudokuSolver.BFS_solveBoard(startCell, sudokuGraph);
         }
    }  

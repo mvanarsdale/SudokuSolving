@@ -158,27 +158,32 @@ public class BoardBuilder {
         //Graph<Vertex> bfsGraph = sudokuGraph.cloneGraph();
     
         // Read the Sudoku grid from a file 
+        
         // easy puzzle file
         loadBoardFromFile("sudoku_puzzle_1.txt", sudokuGraph);
-        // medium puzzle file
+        
+        /// medium puzzle file ///
         //loadBoardFromFile("sudoku_puzzle_2.txt", sudokuGraph);
-        // hard puzzle file
+        
+        /// hard puzzle file ///
         //loadBoardFromFile("sudoku_puzzle_3.txt", sudokuGraph);
         
-        // difficulty
+        // spacer
         System.out.println("Puzzle");
+        
         // Print the graph 
         printSudokuGraph(sudokuGraph);
         
-        // solution
+        // spacer
         System.out.println("\nSolution");
+        // print graph
         //printSudokuGraph(sudokuGraph);
         
         // starting vertex
         Vertex startCell = Graph.get3DVertexAt(0, 0, 0, sudokuGraph.map);
         if (startCell != null) {
             // call method to solve board using depth limited search 
-        	SudokuSolver.DFS_solveBoard(sudokuGraph);
+        	SudokuSolver.DLS_solveBoard(sudokuGraph);
             //SudokuSolver.BFS_solveBoard(startCell, sudokuGraph);
         }
         

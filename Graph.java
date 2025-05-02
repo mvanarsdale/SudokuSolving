@@ -123,26 +123,33 @@ class Graph<T> {
 		   return null; 
 		}
 	  
-	// Lailani's cloning Graph function
-	public static Graph<Vertex> cloneGraph(Graph<Vertex> original) {
-		Graph<Vertex> copy = new Graph<>();
+	// Lailani
+	//help from ChatGPT
+	public Graph<Vertex> cloneGraph() {
+		Graph<Vertex> clonedGraph = new Graph<>();
+
 		Map<Vertex, Vertex> vertexMap = new HashMap<>();
 
-		for (Vertex v : original.map.keySet()) {
-			Vertex newV = new Vertex(v.row, v.col, v.value);
-			copy.addVertex(newV);
-			vertexMap.put(v, newV);
+		// Clone all vertices
+		for (T originalT : this.map.keySet()) {
+			Vertex original = (Vertex) originalT;
+		    Vertex copy = new Vertex(original.row, original.col, original.value);
+		    vertexMap.put(original, copy);
+		    clonedGraph.addVertex(copy);
 		}
 
-		for (Vertex v : original.map.keySet()) {
-			Vertex newV = vertexMap.get(v);
-			for (Vertex neighbor : original.map.get(v)) {
-				copy.addEdge(newV, vertexMap.get(neighbor), true);
-			}
+		// Clone all edges
+		for (T originalT : this.map.keySet()) {
+			Vertex original = (Vertex) originalT;
+		    Vertex copy = vertexMap.get(original);
+		    for (T neighborT : this.map.get(original)) {
+		    	Vertex neighbor = (Vertex) neighborT;
+		        Vertex neighborCopy = vertexMap.get(neighbor);
+		        clonedGraph.addEdge(copy, neighborCopy, true);
+		    }
 		}
-		return copy;
-	}
-	  
+		    return clonedGraph;
+		}
 	  
 
 	 // Prints the adjancency list of each vertex.
@@ -161,8 +168,4 @@ class Graph<T> {
 	     return (builder.toString());
 	 }
 
-	public Graph<Vertex> cloneGraph() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 	}

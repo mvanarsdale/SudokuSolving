@@ -118,19 +118,15 @@ public class BoardBuilder {
                         break;
                     }
                 }
-
                 if (!found) {
                     System.out.print(". ");
                 }
-
                 // Add vertical box separator
                 if (col % 3 == 2 && col != 8) {
                     System.out.print("| ");
                 }
             }
-
             System.out.println();
-
             // Add horizontal box separator
             if (row % 3 == 2 && row != 8) {
                 System.out.println("------+-------+------");
@@ -142,6 +138,10 @@ public class BoardBuilder {
     public static void main(String[] args) {
         // Object of graph is created
         Graph<Vertex> sudokuGraph = new Graph<>();
+        
+        //Graph<Vertex> dfsGraph = sudokuGraph.cloneGraph();
+        //Graph<Vertex> bfsGraph = sudokuGraph.cloneGraph();
+        
 
         ////////// Replace "sudoku_puzzle_1" with 2-Med or 3-Hard /////////////////
         // Read the Sudoku grid from a file - Easy 
@@ -152,11 +152,11 @@ public class BoardBuilder {
         printSudokuGraph(sudokuGraph);
         
         // solution
-        System.out.println("\nSoltion");
+        System.out.println("\nSolution");
         
         Vertex startCell = Graph.getVertexAt(0, 0, sudokuGraph.map);
         if (startCell != null) {
-            SudokuSolver.DFS_solveBoard(startCell, sudokuGraph);
+            //SudokuSolver.DFS_solveBoard(startCell, sudokuGraph);
             SudokuSolver.BFS_solveBoard(startCell, sudokuGraph);
         }
    }  

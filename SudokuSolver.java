@@ -30,41 +30,53 @@ public class SudokuSolver {
 	
     
 	public static void BFS_solveBoard(Vertex cell, Graph<Vertex> sudokuGraph) {
-	    boardHolder.clear(); // clear leftovers from old runs
-	    boardHolder.add(sudokuGraph); // start with original board
+		// add initial board in queue
+		boardHolder.add(sudokuGraph);
 
-	    while (!boardHolder.isEmpty()) {
-	        Graph<Vertex> board = boardHolder.poll(); // dequeue board
-	        Vertex emptyCell = findEmptyCell(board); // find first empty spot
-
-	        // ✅ If there's no empty cell, it's solved!
-	        if (emptyCell == null) {
-	            solutionCount++;
-	            System.out.println("🎉 Solution #" + solutionCount);
-	            BoardBuilder.printSudokuGraph(board);
-	            System.out.println();
-	            continue;
-	        }
-
-	        // Try digits 1-9
-	        for (int number = 1; number <= 9; number++) {
-	            if (isValid(emptyCell, number, board)) {
-	                // 🔁 Clone board BEFORE modifying it
-	                Graph<Vertex> clonedBoard = board.cloneGraph();
-	                
-	                // 🧠 Re-find that same cell in the cloned board
-	                Vertex clonedCell = Graph.getVertexAt(emptyCell.row, emptyCell.col, clonedBoard.map);
-	                if (clonedCell != null) {
-	                    clonedCell.setValue(number); // Set value safely
-	                    boardHolder.add(clonedBoard); // enqueue for next loop
-	                }
-	            }
-	        }
-	    }
-	}
+		// while queue has boards
+		while (!boardHolder.isEmpty()) {
+			// board removed from the queue
+			Graph<Vertex> board = boardHolder.poll();
+			//System.out.println("Queue size: " + boardHolder.size());
+			// find empty cell in that board
+			Vertex emptyCell = findEmptyCell(board);
+			
+			// printing solved board
+			BoardBuilder.printSudokuGraph(board);
+			
+			System.out.println("-------++++++++++++++++++---------------");
+			
 
 
-	// Mercedes
+			// board has been finished and solved
+		    if (emptyCell == null) {
+		    	// update solutions counter variable
+		    	solutionCount++;
+		    	// printing solved board
+				BoardBuilder.printSudokuGraph(sudokuGraph);
+				
+		        continue;
+		    }
+
+		    for (int PosNumber = 1; PosNumber <= 9; PosNumber++) {
+		    	// if number is valid set cells value
+		    	if (isValid(emptyCell, PosNumber, board) == true) {
+		    		// printing solved board
+					//BoardBuilder.printSudokuGraph(board);
+					
+					//System.out.println("-------++++++++++++++++++---------------");
+		    		// copy valid board 
+		    		Graph<Vertex> clonedBoard = board.cloneGraph();
+		    		
+		    		// set valid value
+		    		emptyCell.setValue(PosNumber);
+		    		// add to queue of valid boards 
+		    		boardHolder.add(clonedBoard);
+		    	}
+		    }
+		}
+   }
+
 	// Solve the Sudoku puzzle using DFS and backtracking
 	// code referenced from: YT@Coding with John [https://www.youtube.com/watch?v=mcXc8Mva2bA]
 	public static void DFS_solveBoard(Vertex cell, Graph<Vertex> sudokuGraph) {
@@ -93,7 +105,7 @@ public class SudokuSolver {
 		}	
 	}
 		
-	// finding empty cell in the board
+	// finding empty cell in the board - DFS
 	static Vertex findingEmptyCell(Vertex cell, Graph<Vertex> sudokuGraph) {
 		// column and row variables
 		int col = cell.col;
@@ -123,7 +135,7 @@ public class SudokuSolver {
 	}
 	
 	
-	// Finds the first empty cell on the board (value == 0)
+	// Finds the first empty cell on the board - BFS
 	static Vertex findEmptyCell(Graph<Vertex> board) {
 		for (int row = 0; row < 9; row++) {
 			for (int col = 0; col < 9; col++) {

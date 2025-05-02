@@ -9,8 +9,6 @@ class Vertex {
     	this.row = row;
     	// int value of column
     	this.col = col;
-    	// layer for 3D
-    	this.layer = layer;
     	// int value of the number at coordinate 
     	this.value = value;
     }

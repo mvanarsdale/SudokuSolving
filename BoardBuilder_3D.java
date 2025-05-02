@@ -143,7 +143,7 @@ public class BoardBuilder_3D {
         // solution
         System.out.println("\nSolution");
         
-        Vertex startCell = Graph.getVertexAt(0, 0, 0, sudokuGraph.map);
+        Vertex startCell = Graph.get3DVertexAt(0, 0, 0, sudokuGraph.map);
         if (startCell != null) {
             SudokuSolver.DFS_solveBoard(startCell, sudokuGraph);
             //SudokuSolver.BFS_solveBoard(startCell, sudokuGraph);

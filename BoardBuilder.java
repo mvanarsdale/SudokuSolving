@@ -1,5 +1,8 @@
 package sudokuSolver;
 
+/** 
+* Sudoku Solver for 3D puzzles
+*/
 
 
 import java.io.*;
@@ -35,7 +38,7 @@ public class BoardBuilder {
 	                // Add the vertex to the graph
 	                sudokuGraph.addVertex(cell);
 
-	                // cals method to add edges between neighbors
+	                // cals method (for 2D graphs) to add edges between neighbors
 	                addEdgesToCell(cell, sudokuGraph);
 	            }
 
@@ -69,6 +72,7 @@ public class BoardBuilder {
 	        boolean sameCol = other.col == col;
 	        // checks value of current cell and compares to others in the same box
 	        boolean sameBox = (other.row / 3 == row / 3) && (other.col / 3 == col / 3);
+	       
 
 	        // if its a neighbor to the node in any way
 	        if (sameRow || sameCol || sameBox) {
@@ -78,30 +82,33 @@ public class BoardBuilder {
 	    }
 	}
 	
-	// add edges between cells in the same row, column, and box
-		public static void addEdgesToCell3D(Vertex cell, Graph<Vertex> sudokuGraph) {
-		    int row = cell.row;
-		    int col = cell.col;
-		    int layer = cell.layer;
+	// add edges between cells in the same row, column, box
+	// added 3D enhancement 
+	public static void addEdgesToCell3D(Vertex cell, Graph<Vertex> sudokuGraph) {
+	    int row = cell.row;
+	    int col = cell.col;
+	    int layer = cell.layer;
 
-		    // Go through all vertices in the graph to find neighbors code from ChatGPT
-		    for (Vertex other : sudokuGraph.map.keySet()) {
-		        if (other == cell) continue;
+	    // Go through all vertices in the graph to find neighbors code from ChatGPT
+	    for (Vertex other : sudokuGraph.map.keySet()) {
+	        if (other == cell) continue;
 
-		        // checks value of current cell and compares to others in the same row
-		        boolean sameRow = other.row == row;
-		        // checks value of current cell and compares to others in the same column
-		        boolean sameCol = other.col == col;
-		        // checks value of current cell and compares to others in the same box
-		        boolean sameBox = (other.row / 3 == row / 3) && (other.col / 3 == col / 3);
+	        // checks value of current cell and compares to others in the same row
+	        boolean sameRow = other.row == row;
+	        // checks value of current cell and compares to others in the same column
+	        boolean sameCol = other.col == col;
+	        // checks value of current cell and compares to others in the same box
+	        boolean sameBox = (other.row / 3 == row / 3) && (other.col / 3 == col / 3);
+	        // 3D checks value of current cell and compares to others in different layers with the same coordinates 
+	        boolean layerNeighbors = (other.col == col && other.row == row && other.layer != layer);
 
-		        // if its a neighbor to the node in any way
-		        if (sameRow || sameCol || sameBox) {
-		            // add an edge between nodes
-		        	sudokuGraph.addEdge(cell, other, true); 
-		        }
-		    }
-		}
+	        // if its a neighbor to the node in any way
+	        if (sameRow || sameCol || sameBox || layerNeighbors) {
+	            // add an edge between nodes
+	        	sudokuGraph.addEdge(cell, other, true); 
+	        }
+	    }
+	}
     
     
     // printing function from ChatGPT for debugging
@@ -154,10 +161,10 @@ public class BoardBuilder {
         // solution
         System.out.println("\nSolution");
         
-        Vertex startCell = Graph.getVertexAt(0, 0, sudokuGraph.map);
+        Vertex startCell = Graph.getVertexAt(0, 0, 0, sudokuGraph.map);
         if (startCell != null) {
-            //SudokuSolver.DFS_solveBoard(startCell, sudokuGraph);
-            SudokuSolver.BFS_solveBoard(startCell, sudokuGraph);
+            SudokuSolver.DFS_solveBoard(startCell, sudokuGraph);
+            //SudokuSolver.BFS_solveBoard(startCell, sudokuGraph);
         }
    }  
 }

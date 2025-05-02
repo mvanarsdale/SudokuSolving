@@ -11,11 +11,13 @@ class Vertex {
     	this.col = col;
     	// int value of the number at coordinate 
     	this.value = value;
+    	// int value for layer 
+    	this.layer = layer;
     }
     
     // for 2D boards
     Vertex(int row, int col, int value) {
-    	// layer 0 for 2D boards
+    	// layer 0 for 2D b
     	this(row, col, 0, value); 
     }
     
@@ -45,18 +47,17 @@ class Vertex {
     }
 
     @Override
-    // method to compare two vertex values
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Vertex)) return false;
         Vertex v = (Vertex) o;
-        return row == v.row && col == v.col;
+        return row == v.row && col == v.col && layer == v.layer;
     }
 
     @Override
     // method to ensure coordinates are handled correctly
     public int hashCode() {
-        return Objects.hash(row, col);
+        return Objects.hash(row, col, layer);
     }
 
     @Override

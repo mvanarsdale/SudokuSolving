@@ -1,17 +1,16 @@
 package sudokuSolver;
 
 
+// Libraries
 import java.util.ArrayList;
 import java.util.Collections;
-
-//Java program to implement Graph FROM Geeks4Geeks
-//with the help of Generics
-
-
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+
+//Java program to implement Graph FROM Geeks4Geeks
+//with the help of Generics
 
 class Graph<T> {
 
@@ -113,18 +112,33 @@ class Graph<T> {
 	      System.out.print(w+",");
 	 }
 	   
-	  // Code from ChatGPT
-	  public static Vertex getVertexAt(int row, int col, int layer, Map<Vertex, List<Vertex>> map) {
+	  // gets vertex from specfic vertex in graph - Code from ChatGPT
+	  public static Vertex getVertexAt(int row, int col, Map<Vertex, List<Vertex>> map) {
+		  // for all vertices
 		  for (Vertex v : map.keySet()) {
-			  if (v.getRow() == row && v.getCol() == col && v.getLayer() == layer) {
+			  // find vertex with specfic row and column
+			  if (v.getRow() == row && v.getCol() == col) {
+				  // returns vertex 
 				  return v; 
 		       }
 		  }
 		   return null; 
 		}
 	  
-	// Lailani
-	//help from ChatGPT
+	  // gets vertex from specfic vertex in 3D graph - Code from ChatGPT
+	  public static Vertex get3DVertexAt(int row, int col, int layer, Map<Vertex, List<Vertex>> map) {
+		  // for all vertices
+		  for (Vertex v : map.keySet()) {
+			  // find vertex with specfic row and column
+			  if (v.getRow() == row && v.getCol() == col && v.getLayer() == layer) {
+				  // returns vertex  
+				  return v; 
+			  }
+		  }
+			return null; 
+	  }
+	
+	// Method that clones 2D graphs - Lailani
 	public Graph<Vertex> cloneGraph() {
 		Graph<Vertex> clonedGraph = new Graph<>();
 

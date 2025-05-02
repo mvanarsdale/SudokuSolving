@@ -1,5 +1,8 @@
 package sudokuSolver;
 
+/** 
+* Sudoku Solver for 3D puzzles
+*/
 
 
 import java.io.*;
@@ -79,6 +82,8 @@ public class BoardBuilder {
 	    }
 	}
 	
+	// add edges between cells in the same row, column, box
+	// added 3D enhancement 
 	public static void addEdgesToCell3D(Vertex cell, Graph<Vertex> sudokuGraph) {
 	    int row = cell.row;
 	    int col = cell.col;
@@ -106,32 +111,37 @@ public class BoardBuilder {
 	}
     
     
-    // printing function from ChatGPT for debugging
+	// printing function from ChatGPT for debugging 
     public static void printSudokuGraph(Graph<Vertex> sudokuGraph) {
         for (int row = 0; row < 9; row++) {
             for (int col = 0; col < 9; col++) {
-                
+                // insitalize boolean for vertex value checks
                 boolean found = false;
 
+                // for all vertices
                 for (Vertex v : sudokuGraph.map.keySet()) {
                     if (v.row == row && v.col == col) {
-                        System.out.print((v.value == 0 ? ". " : v.value + " "));
-                        found = true;
+                    	System.out.print((v.value == 0 ? ". " : v.value + " "));
+                    	// if not empty change variable to true 
+                    	found = true;
                         break;
                     }
                 }
                 if (!found) {
-                    System.out.print(". ");
+                    // if there's no value in the cell
+                	System.out.print(". ");
                 }
                 // Add vertical box separator
                 if (col % 3 == 2 && col != 8) {
+                	// cosmetics 
                     System.out.print("| ");
                 }
             }
             System.out.println();
             // Add horizontal box separator
             if (row % 3 == 2 && row != 8) {
-                System.out.println("------+-------+------");
+            	// cosmetics 
+            	System.out.println("------+-------+------");
             }
         }
     }
@@ -155,11 +165,13 @@ public class BoardBuilder {
         
         // solution
         System.out.println("\nSolution");
+        //printSudokuGraph(sudokuGraph);
         
-        Vertex startCell = Graph.getVertexAt(0, 0, 0, sudokuGraph.map);
+        Vertex startCell = Graph.get3DVertexAt(0, 0, 0, sudokuGraph.map);
         if (startCell != null) {
-            SudokuSolver.DFS_solveBoard(startCell, sudokuGraph);
+            SudokuSolver.DFS_solveBoard(sudokuGraph);
             //SudokuSolver.BFS_solveBoard(startCell, sudokuGraph);
         }
+        
    }  
 }

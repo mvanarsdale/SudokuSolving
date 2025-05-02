@@ -110,25 +110,33 @@ public class SudokuSolver {
 		// column and row variables
 		int col = cell.col;
 		int row = cell.row;
+		// handling 3D boards
+		int layer = cell.layer;
 		
-		// end of the row hasn't been reached
-		while (col < 9) {
-			// if value is 0 that means its empty
-			if (Graph.getVertexAt(row, col, sudokuGraph.map).getValue() == 0) {
-	            // return empty cell
-				return Graph.getVertexAt(row, col, sudokuGraph.map);
-	        }
-			// move over horizontally
-			col++;
-			// checks if moved to far
-			if (col == 9) {
-				// resets accordingly
-				col = 0;
-				row++;
-			}
-			// returns null if gone through whole board
-			if (row == 9) {
-				return null;
+		// layers for 3D graphs
+		while (layer < 3) { 
+	        // 
+			while (row < 9) {
+	        	// end of the row hasn't been reached
+	        	while (col < 9) {
+	        		// if value is 0 that means its empty
+	        		if (Graph.getVertexAt(row, col, layer, sudokuGraph.map).getValue() == 0) {
+	        			// return empty cell
+	        			return Graph.getVertexAt(row, col, layer, sudokuGraph.map);
+	        		}
+	        		// move over horizontally
+	        		col++;
+	        		// checks if moved to far
+	        		if (col == 9) {
+	        			// resets accordingly
+	        			col = 0;
+	        			row++;
+	        		}
+	        		// returns null if gone through whole board
+	        		if (row == 9) {
+	        			return null;
+	        		}
+	        	}
 			}
 		}
     return null;
@@ -137,11 +145,13 @@ public class SudokuSolver {
 	
 	// Finds the first empty cell on the board - BFS
 	static Vertex findEmptyCell(Graph<Vertex> board) {
-		for (int row = 0; row < 9; row++) {
-			for (int col = 0; col < 9; col++) {
-				Vertex v = Graph.getVertexAt(row, col, board.map);
-				if (v != null && v.getValue() == 0) {
-					return v;
+		for (int layer = 0; layer < 9; layer++) {
+			for (int row = 0; row < 9; row++) {
+				for (int col = 0; col < 9; col++) {
+					Vertex v = Graph.getVertexAt(row, col, layer, board.map);
+					if (v != null && v.getValue() == 0) {
+						return v;
+					}
 				}
 			}
 		}

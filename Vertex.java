@@ -4,13 +4,19 @@ import java.util.Objects;
 class Vertex {
     int row, col, layer, value;
 
-    Vertex(int row, int col, int value) {
+    Vertex(int row, int col, int layer, int value) {
         // int value of row
     	this.row = row;
     	// int value of column
     	this.col = col;
     	// int value of the number at coordinate 
     	this.value = value;
+    }
+    
+    // for 2D boards
+    Vertex(int row, int col, int value) {
+    	// layer 0 for 2D boards
+    	this(row, col, 0, value); 
     }
     
     // row getter

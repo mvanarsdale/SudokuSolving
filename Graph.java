@@ -114,9 +114,9 @@ class Graph<T> {
 	 }
 	   
 	  // Code from ChatGPT
-	  public static Vertex getVertexAt(int row, int col, Map<Vertex, List<Vertex>> map) {
+	  public static Vertex getVertexAt(int row, int col, int layer, Map<Vertex, List<Vertex>> map) {
 		  for (Vertex v : map.keySet()) {
-			  if (v.getRow() == row && v.getCol() == col) {
+			  if (v.getRow() == row && v.getCol() == col && v.getLayer() == layer) {
 				  return v; 
 		       }
 		  }

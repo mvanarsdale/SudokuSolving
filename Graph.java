@@ -118,6 +118,7 @@ class Graph<T> {
 		  for (Vertex v : map.keySet()) {
 			  // find vertex with specfic row and column
 			  if (v.getRow() == row && v.getCol() == col) {
+				  // returns vertex 
 				  return v; 
 		       }
 		  }
@@ -130,6 +131,7 @@ class Graph<T> {
 		  for (Vertex v : map.keySet()) {
 			  // find vertex with specfic row and column
 			  if (v.getRow() == row && v.getCol() == col && v.getLayer() == layer) {
+				  // returns vertex  
 				  return v; 
 			  }
 		  }

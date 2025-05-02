@@ -93,40 +93,50 @@ public class BoardBuilder_3D {
 	    }
 	}
 
-    // printing function from ChatGPT for debugging (still needs fixing this is old 2D method)
-    public static void printSudokuGraph(Graph<Vertex> sudokuGraph) {
-        for (int row = 0; row < 9; row++) {
-            for (int col = 0; col < 9; col++) {
-                
-                boolean found = false;
+	// 3D printing function
+	public static void print3DSudokuGraph(Graph<Vertex> sudokuGraph) {
+		System.out.println("DEBUG: Layered vertex values");
+		for (Vertex v : sudokuGraph.map.keySet()) {
+		    System.out.println("Layer " + v.layer + " | Row " + v.row + " | Col " + v.col + " | Value " + v.value);
+		}
 
-                for (Vertex v : sudokuGraph.map.keySet()) {
-                    if (v.row == row && v.col == col) {
-                        System.out.print((v.value == 0 ? ". " : v.value + " "));
-                        found = true;
-                        break;
-                    }
-                }
-                if (!found) {
-                    System.out.print(". ");
-                }
-                // Add vertical box separator
-                if (col % 3 == 2 && col != 8) {
-                    System.out.print("| ");
-                }
-            }
-            System.out.println();
-            // Add horizontal box separator
-            if (row % 3 == 2 && row != 8) {
-                System.out.println("------+-------+------");
-            }
-        }
-    }
+	    for (int layer = 0; layer < 3; layer++) {
+	        System.out.println("Layer " + layer + ":");
+	        for (int row = 0; row < 9; row++) {
+	            for (int col = 0; col < 9; col++) {
+	                boolean found = false;
+	                for (Vertex v : sudokuGraph.map.keySet()) {
+	                    if (v.row == row && v.col == col && v.layer == layer) {
+	                        System.out.print((v.value == 0 ? ". " : v.value + " "));
+	                        found = true;
+	                        break;
+	                    }
+	                }
+	                if (!found) {
+	                    System.out.print(". ");
+	                }
+
+	                // Box separator for columns
+	                if (col % 3 == 2 && col != 8) {
+	                    System.out.print("| ");
+	                }
+	            }
+	            System.out.println();
+
+	            // Box separator for rows
+	            if (row % 3 == 2 && row != 8) {
+	                System.out.println("------+-------+------");
+	            }
+	        }
+	        System.out.println(); // Extra space between layers
+	    }
+	}
+
 
 
     public static void main(String[] args) {
         // Object of graph is created
-        Graph<Vertex> sudokuGraph = new Graph<>();
+        Graph<Vertex> sudokuGraph_3D = new Graph<>();
         
         //Graph<Vertex> dfsGraph = sudokuGraph.cloneGraph();
         //Graph<Vertex> bfsGraph = sudokuGraph.cloneGraph();
@@ -134,18 +144,18 @@ public class BoardBuilder_3D {
 
         ////////// Replace 3D_easy with medium hard /////////////////
         // Read the Sudoku grid from a file - Easy 
-        load3DBoardFromFile("3D_easy.txt", sudokuGraph);
+        load3DBoardFromFile("3D_easy.txt", sudokuGraph_3D);
         // difficulty
         System.out.println("Puzzle");
         // Print the graph 
-        printSudokuGraph(sudokuGraph);
+        print3DSudokuGraph(sudokuGraph_3D);
         
         // solution
         System.out.println("\nSolution");
         
-        Vertex startCell = Graph.get3DVertexAt(0, 0, 0, sudokuGraph.map);
+        Vertex startCell = Graph.get3DVertexAt(0, 0, 0, sudokuGraph_3D.map);
         if (startCell != null) {
-            SudokuSolver.DFS_solveBoard(startCell, sudokuGraph);
+            //SudokuSolver.DFS_solveBoard(startCell, sudokuGraph_3D);
             //SudokuSolver.BFS_solveBoard(startCell, sudokuGraph);
         }
    }  

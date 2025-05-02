@@ -94,35 +94,35 @@ public class SudokuSolver {
 		}	
 	}
 	
-		// Solve the Sudoku puzzle using DFS and backtracking
-		// code referenced from: YT@Coding with John [https://www.youtube.com/watch?v=mcXc8Mva2bA]
-		public static void DFS_solveBoard3D(Graph<Vertex> sudokuGraph_3D, Vertex cell) {
-			// solved it or no cells left
-			if (cell == null) {
-				// increasing solutions counter 		
-				solutionCount++;
-				// print number of solutions found 
-				System.out.println("\nsolutions found: " + solutionCount);
-				BoardBuilder.printSudokuGraph(sudokuGraph_3D);
-				return;
-			}
-			// tries placing numbers 1-9
-			for (int PosNumber = 1; PosNumber <= 9; PosNumber++) {
-				// if number is valid set cells value
-				if (isValid(cell, PosNumber, sudokuGraph_3D) == true) {
-					
-					// set valid value
-					cell.setValue(PosNumber);
-					BoardBuilder_3D.print3DSudokuGraph(sudokuGraph_3D);
-					//System.out.println("Trying " + PosNumber + " at (" + cell.layer + "," + cell.row + "," + cell.col + ")");
-					
-					// call recursive function
-					DFS_solveBoard3D(sudokuGraph_3D, findEmptyCell(sudokuGraph_3D));
-					// Backtrack 
-		            cell.setValue(0);
-				}
-			}	
+	// Solve the Sudoku puzzle using DFS and backtracking
+	// code referenced from: YT@Coding with John [https://www.youtube.com/watch?v=mcXc8Mva2bA]
+	public static void DFS_solveBoard3D(Graph<Vertex> sudokuGraph_3D, Vertex cell) {
+		// solved it or no cells left
+		if (cell == null) {
+			// increasing solutions counter 		
+			solutionCount++;
+			// print number of solutions found 
+			System.out.println("\nsolutions found: " + solutionCount);
+			BoardBuilder.printSudokuGraph(sudokuGraph_3D);
+			return;
 		}
+		// tries placing numbers 1-9
+		for (int PosNumber = 1; PosNumber <= 9; PosNumber++) {
+			// if number is valid set cells value
+			if (isValid(cell, PosNumber, sudokuGraph_3D) == true) {
+					
+				// set valid value
+				cell.setValue(PosNumber);
+				BoardBuilder_3D.print3DSudokuGraph(sudokuGraph_3D);
+				//System.out.println("Trying " + PosNumber + " at (" + cell.layer + "," + cell.row + "," + cell.col + ")");
+					
+				// call recursive function
+				DFS_solveBoard3D(sudokuGraph_3D, findEmptyCell(sudokuGraph_3D));
+				// Backtrack 
+		        cell.setValue(0);
+			}
+		}	
+	}
 	
 	// Lailani - finds the first empty cell on the board 
 	static Vertex findEmptyCell(Graph<Vertex> board) {

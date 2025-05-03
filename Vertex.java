@@ -57,6 +57,7 @@ class Vertex {
     }
 
     @Override
+    // code from ChatGPT - overrides equals function to compared vertices
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Vertex)) return false;
@@ -65,15 +66,9 @@ class Vertex {
     }
 
     @Override
-    // method to ensure coordinates are handled correctly
+    // code from ChatGPT - method to ensure coordinates are handled correctly
     public int hashCode() {
         return Objects.hash(row, col, layer);
-    }
-
-    @Override
-    // toString method
-    public String toString() {
-        return "(" + row + "," + col + ")";
     }
 }
 

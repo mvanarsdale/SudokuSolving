@@ -3,7 +3,7 @@ package sudokuSolver;
 
 /** 
 * Sudoku board builder 
-* @author ()
+* @author (Mercedes)
 * @version (2025)
 */
 
@@ -84,34 +84,6 @@ public class BoardBuilder {
 	        }
 	    }
 	}
-	
-	// add edges between cells in the same row, column, box
-	// added 3D enhancement 
-	public static void addEdgesToCell3D(Vertex cell, Graph<Vertex> sudokuGraph) {
-	    int row = cell.row;
-	    int col = cell.col;
-	    int layer = cell.layer;
-
-	    // Go through all vertices in the graph to find neighbors code from ChatGPT
-	    for (Vertex other : sudokuGraph.map.keySet()) {
-	        if (other == cell) continue;
-
-	        // checks value of current cell and compares to others in the same row
-	        boolean sameRow = other.row == row;
-	        // checks value of current cell and compares to others in the same column
-	        boolean sameCol = other.col == col;
-	        // checks value of current cell and compares to others in the same box
-	        boolean sameBox = (other.row / 3 == row / 3) && (other.col / 3 == col / 3);
-	        // 3D checks value of current cell and compares to others in different layers with the same coordinates 
-	        boolean layerNeighbors = (other.col == col && other.row == row && other.layer != layer);
-
-	        // if its a neighbor to the node in any way
-	        if (sameRow || sameCol || sameBox || layerNeighbors) {
-	            // add an edge between nodes
-	        	sudokuGraph.addEdge(cell, other, true); 
-	        }
-	    }
-	}
     
     
 	// printing function from ChatGPT for debugging 
@@ -153,29 +125,27 @@ public class BoardBuilder {
     public static void main(String[] args) {
         // Object of graph is created
         Graph<Vertex> sudokuGraph = new Graph<>();
-        
-        //Graph<Vertex> dfsGraph = sudokuGraph.cloneGraph();
-        //Graph<Vertex> bfsGraph = sudokuGraph.cloneGraph();
     
         // Read the Sudoku grid from a file 
         
-        // easy puzzle file
+        // easy puzzle file - puzzle generated from ChatGPT
         loadBoardFromFile("sudoku_puzzle_1.txt", sudokuGraph);
         
-        /// medium puzzle file ///
+        /// medium puzzle file - puzzle generated from ChatGPT///
         //loadBoardFromFile("sudoku_puzzle_2.txt", sudokuGraph);
         
-        /// hard puzzle file ///
+        /// hard puzzle file - puzzle generated from ChatGPT///
         //loadBoardFromFile("sudoku_puzzle_3.txt", sudokuGraph);
+        
+        /// puzzle containing all 0's ///
+        //loadBoardFromFile("sudoku_puzzle_5.txt", sudokuGraph);
         
         // spacer
         System.out.println("Puzzle");
         
         // Print the graph 
         printSudokuGraph(sudokuGraph);
-        
-        // spacer
-        System.out.println("\nSolution");
+       
         // print graph
         //printSudokuGraph(sudokuGraph);
         

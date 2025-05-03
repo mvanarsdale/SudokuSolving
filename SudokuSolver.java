@@ -9,7 +9,7 @@ import java.util.LinkedList;
 
 /** 
 * Class that produces sudoku board solutions using a DLS and BFS approach 
-* @author ()
+* @author (Mercedes, Lailani)
 * @version (2025)
 */
 
@@ -28,8 +28,7 @@ public class SudokuSolver {
 	// queue for BFS
 	static Queue<Graph<Vertex>> boardHolder = new LinkedList<>();
 	
-    
-	// Lailani
+   
 	//Using BFS to find the different solutions by using brite force approach
 	//Reference paper <https://hypermode.com/blog/depth-first-search-vs-breadth-first-search>
 	public static void BFS_solveBoard(Vertex cell, Graph<Vertex> sudokuGraph) {
@@ -67,7 +66,7 @@ public class SudokuSolver {
 		}
    }
 
-	// Solve the Sudoku puzzle using DFS and backtracking
+	// Solve the Sudoku puzzle using DLS and backtracking
 	// code referenced from: YT@Coding with John [https://www.youtube.com/watch?v=mcXc8Mva2bA]
 	public static void DLS_solveBoard(Graph<Vertex> sudokuGraph) {
 		Vertex cell = findEmptyCell(sudokuGraph);
@@ -76,7 +75,7 @@ public class SudokuSolver {
 			// increasing solutions counter 		
 			solutionCount++;
 			// print number of solutions found 
-			System.out.println("\nsolutions found: " + solutionCount);
+			System.out.println("\nsolutions found: " + solutionCount + "\n");
 			BoardBuilder.printSudokuGraph(sudokuGraph);
 			return;
 		}
@@ -113,8 +112,9 @@ public class SudokuSolver {
 					
 				// set valid value
 				cell.setValue(PosNumber);
-				BoardBuilder_3D.print3DSudokuGraph(sudokuGraph_3D);
-				//System.out.println("Trying " + PosNumber + " at (" + cell.layer + "," + cell.row + "," + cell.col + ")");
+				
+				// printing 
+				//BoardBuilder_3D.print3DSudokuGraph(sudokuGraph_3D);
 					
 				// call recursive function
 				DLS_solveBoard3D(sudokuGraph_3D, findEmptyCell(sudokuGraph_3D));
@@ -124,7 +124,7 @@ public class SudokuSolver {
 		}	
 	}
 	
-	// Lailani - finds the first empty cell on the board 
+	// finds the first empty cell on the board 
 	static Vertex findEmptyCell(Graph<Vertex> board) {
 		// for each cell in diff layer
 		for (int layer = 0; layer < 9; layer++) {
@@ -136,7 +136,6 @@ public class SudokuSolver {
 					Vertex v = Graph.get3DVertexAt(row, col, layer, board.map);
 					// check if its empty 
 					if (v != null && v.getValue() == 0) {
-						//System.out.println("Found empty cell at Layer " + layer + ", Row " + row + ", Col " + col);
 						// return if empty
 						return v;
 					}

@@ -4,7 +4,7 @@ package sudokuSolver;
 
 /** 
 * Sudoku board builder for 3D graphs
-* @author ()
+* @author (Mercedes)
 * @version (2025)
 */
 
@@ -142,16 +142,25 @@ public class BoardBuilder_3D {
         Graph<Vertex> sudokuGraph_3D = new Graph<>();
         
 
-        ////////// Replace 3D_easy with medium hard /////////////////
-        // Read the Sudoku grid from a file - Easy 
+        // Read the Sudoku grid from a file 
+        
+        // easy puzzle file - puzzle generated from ChatGPT
         load3DBoardFromFile("3D_easy.txt", sudokuGraph_3D);
-        // difficulty
+        
+        // medium puzzle file - puzzle generated from ChatGPT
+        //load3DBoardFromFile("3D_medium.txt", sudokuGraph_3D);
+        
+        /// hard puzzle file - puzzle generated from ChatGPT
+        //load3DBoardFromFile("3D_hard.txt", sudokuGraph_3D);
+        
+        // spacer
         System.out.println("Puzzle");
+        
         // Print the graph 
         print3DSudokuGraph(sudokuGraph_3D);
         
         // solution
-        System.out.println("\n+++++++++SOLUTION+++++++");
+        System.out.println("\n++++++SOLUTION+++++++");
         print3DSudokuGraph(sudokuGraph_3D);
         
         Vertex startCell = SudokuSolver.findEmptyCell(sudokuGraph_3D);
